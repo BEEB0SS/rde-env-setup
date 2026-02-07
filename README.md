@@ -25,7 +25,7 @@ A VS Code extension for **Repository Parsing/Explaining** with an interactive gr
 ### Install dependencies
 
 ```bash
-cd /Users/mehdihdev/mehdihdev-temp/rde-env
+cd /Path/to/rde-env
 pnpm install --no-frozen-lockfile
 ```
 
@@ -43,7 +43,7 @@ pnpm compile
 
 ## Run in VS Code
 
-1. Open `/Users/mehdihdev/mehdihdev-temp/rde-env` in VS Code
+1. Open `/Path/to/rde-env` in VS Code
 2. Press `F5` to launch the Extension Host
 3. In the Extension Host window, open any repo folder
 4. Run `RDE: Repository Visualizer`
