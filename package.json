@@ -10,6 +10,7 @@
     "Other"
   ],
   "activationEvents": [
+    "onStartupFinished",
     "onCommand:rde.oneClickSetup",
     "onCommand:rde.about",
     "onCommand:rde.openVisualizer"
@@ -31,6 +32,11 @@
         "command": "rde.openVisualizer",
         "title": "RDE: Repository Visualizer",
         "category": "ForgeRDE"
+      },
+      {
+        "command": "rde.refreshDiagnostics",
+        "title": "RDE: Refresh Diagnostics",
+        "category": "ForgeRDE"
       }
     ],
     "configuration": {
@@ -49,6 +55,23 @@
           "scope": "application"
         }
       }
+    },
+    "viewsContainers": {
+      "panel": [
+        {
+          "id": "rde-panel",
+          "title": "Forge RDE",
+          "icon": "resources/forge-rde.svg"
+        }
+      ]
+    },
+    "views": {
+      "rde-panel": [
+        {
+          "id": "rde.diagnosticsView",
+          "name": "Forge RDE Issues"
+        }
+      ]
     }
   },
   "scripts": {
