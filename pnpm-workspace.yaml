@@ -1,2 +1,4 @@
+packages:
+  - "webview-ui"
 ignoredBuiltDependencies:
   - esbuild

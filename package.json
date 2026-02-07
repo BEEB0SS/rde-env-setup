@@ -11,25 +11,49 @@
   ],
   "activationEvents": [
     "onCommand:rde.oneClickSetup",
-    "onCommand:rde.helloWorld"
+    "onCommand:rde.about",
+    "onCommand:rde.openVisualizer"
   ],
   "main": "./dist/extension.js",
   "contributes": {
     "commands": [
       {
-        "command": "rde.helloWorld",
-        "title": "Hello World",
+        "command": "rde.about",
+        "title": "About Forge RDE",
         "category": "ForgeRDE"
       },
       {
         "command": "rde.oneClickSetup",
         "title": "RDE: One-Click Setup",
         "category": "ForgeRDE"
+      },
+      {
+        "command": "rde.openVisualizer",
+        "title": "RDE: Repository Visualizer",
+        "category": "ForgeRDE"
       }
-    ]
+    ],
+    "configuration": {
+      "title": "RDE",
+      "properties": {
+        "rde.geminiApiKey": {
+          "type": "string",
+          "default": "",
+          "description": "Gemini API key for AI summaries.",
+          "scope": "application"
+        },
+        "rde.ttcApiKey": {
+          "type": "string",
+          "default": "",
+          "description": "API key for The Token Company (TTC) compression (optional).",
+          "scope": "application"
+        }
+      }
+    }
   },
   "scripts": {
     "vscode:prepublish": "pnpm run package",
+    "build:webview": "cd webview-ui && pnpm install && pnpm build",
     "compile": "pnpm run check-types && pnpm run lint && node esbuild.js",
     "watch": "npm-run-all -p watch:*",
     "watch:esbuild": "node esbuild.js --watch",
@@ -42,10 +66,16 @@
     "lint": "eslint src",
     "test": "vscode-test"
   },
+  "dependencies": {
+    "@babel/parser": "^7.23.0",
+    "@babel/traverse": "^7.23.0",
+    "@babel/types": "^7.23.0"
+  },
   "devDependencies": {
     "@types/vscode": "^1.108.1",
     "@types/mocha": "^10.0.10",
     "@types/node": "22.x",
+    "@types/babel__traverse": "^7.20.0",
     "typescript-eslint": "^8.52.0",
     "eslint": "^9.39.2",
     "esbuild": "^0.27.2",

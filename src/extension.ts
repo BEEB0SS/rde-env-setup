@@ -3,6 +3,7 @@ import { createServices } from "./createServices";
 import { setServices, getServices } from "./servicesSingleton";
 import { runOneClickWizard } from "./commands/oneClickWizard";
 import { runOneClickSetup } from "./commands/oneClickSetup";
+import { registerVisualizerCommand } from "./visualizer/visualizer";
 
 export function activate(context: vscode.ExtensionContext) {
   const services = createServices();
@@ -17,9 +18,10 @@ export function activate(context: vscode.ExtensionContext) {
 
   services.log.appendLine("RDE activated.");
 
-  const helloCmd = vscode.commands.registerCommand("rde.helloWorld", () => {
-    vscode.window.showInformationMessage("Hello World from RDE!");
-    getServices().log.appendLine("helloWorld command invoked.");
+  const aboutCmd = vscode.commands.registerCommand("rde.about", () => {
+    const message = "Forge RDE | MVP Version 0.01 | Forged by Solus Labs";
+    vscode.window.showInformationMessage(message);
+    getServices().log.appendLine("about command invoked.");
   });
 
   const oneClickCmd = vscode.commands.registerCommand("rde.oneClickSetup", async () => {
@@ -43,8 +45,9 @@ export function activate(context: vscode.ExtensionContext) {
   validatorLog.appendLine(`(stub) runTarget=${choices.runTarget}`);
   });
 
+  registerVisualizerCommand(context);
 
-  context.subscriptions.push(helloCmd, oneClickCmd);
+  context.subscriptions.push(aboutCmd, oneClickCmd);
 }
 
 export function deactivate() {}
