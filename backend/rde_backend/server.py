@@ -1,6 +1,12 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
+from pathlib import Path
+from .models import AnalyzeRequest, AnalyzeResponse, SetupIntent, DependencySummary
 import uvicorn
+from .repo_scan import discover_repo_files
+from .readme_intent import parse_readme
+from .deps import collect_dependencies
+from .fingerprint import fingerprint_system
 
 app = FastAPI(title="RDE Backend", version="0.0.1")
 
@@ -20,15 +26,34 @@ class SolveRequest(BaseModel):
     analysis: dict
 
 
-@app.post("/analyze")
+@app.post("/analyze", response_model = AnalyzeResponse)
 def analyze(req: AnalyzeRequest):
-    # Phase 0 stub: return minimal payload
-    return {
-        "repoPath": req.repoPath,
-        "readmeFound": False,
-        "dependenciesFound": [],
-        "notes": ["stub analyze response"],
-    }
+    print(f"[analyze] repoPath={req.repoPath}")
+    repo_files = discover_repo_files(req.repoPath)
+
+    setup_intent = SetupIntent()
+    readme_path = None
+    if repo_files.readme:
+        readme_path = str(repo_files.readme)
+        setup_intent = parse_readme(repo_files.readme)
+
+    deps = collect_dependencies(repo_files.dep_files)
+    fp = fingerprint_system()
+
+    notes = []
+    if not repo_files.readme:
+        notes.append("No README found at repo root.")
+    notes.append(f"Found {len(repo_files.dep_files)} dependency-related files.")
+    notes.append(f"Found {len(repo_files.scripts)} scripts.")
+
+    return AnalyzeResponse(
+        repoPath=req.repoPath,
+        readme_path=readme_path,
+        setup_intent=setup_intent,
+        dependencies=deps,
+        fingerprint=fp,
+        notes=notes,
+    )
 
 
 @app.post("/solve")

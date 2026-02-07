@@ -23,24 +23,8 @@ export function activate(context: vscode.ExtensionContext) {
   });
 
   const oneClickCmd = vscode.commands.registerCommand("rde.oneClickSetup", async () => {
-  const { log, solverLog, validatorLog } = getServices();
 
-  log.show(true);
-  log.appendLine("One-Click Setup invoked.");
-
-  const choices = await runOneClickWizard();
-  if (!choices) {
-    log.appendLine("User cancelled One-Click Setup.");
-    return;
-  }
-
-  log.appendLine("User choices:");
-  log.appendLine(JSON.stringify(choices, null, 2));
-
-  // Phase 0: no real backend calls required yet.
-  // But we can show that these logs are separated.
-  solverLog.appendLine(`(stub) choices.envType=${choices.envType}`);
-  validatorLog.appendLine(`(stub) runTarget=${choices.runTarget}`);
+    await runOneClickSetup();
   });
 
 
