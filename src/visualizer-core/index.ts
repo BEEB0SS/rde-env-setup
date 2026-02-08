@@ -56,6 +56,9 @@ export {
     createOpenRouterClient,
 } from "./gemini.js";
 
+// Anthropic API client
+export { AnthropicClient, type AnthropicConfig } from "./anthropic.js";
+
 // Risk Analysis Agent
 export {
     RiskAnalysisAgent,
@@ -72,4 +75,3 @@ export {
 // RLHF Feedback Loop
 export { FeedbackManager } from "./feedback-manager.js";
 export * from "./prompts.js";
-

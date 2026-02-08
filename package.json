@@ -42,10 +42,28 @@
     "configuration": {
       "title": "RDE",
       "properties": {
+        "rde.aiProvider": {
+          "type": "string",
+          "default": "gemini",
+          "enum": ["gemini", "anthropic"],
+          "description": "AI provider for summaries."
+        },
         "rde.geminiApiKey": {
           "type": "string",
           "default": "",
           "description": "Gemini API key for AI summaries.",
+          "scope": "application"
+        },
+        "rde.anthropicApiKey": {
+          "type": "string",
+          "default": "",
+          "description": "Anthropic API key for AI summaries.",
+          "scope": "application"
+        },
+        "rde.anthropicModel": {
+          "type": "string",
+          "default": "",
+          "description": "Anthropic model name (required for Anthropic provider).",
           "scope": "application"
         },
         "rde.ttcApiKey": {

@@ -7,6 +7,7 @@ import {
   type DirectoryCapsule,
   type ExportEntry,
   GeminiClient,
+  AnthropicClient,
 } from "../visualizer-core/index.js";
 
 type CapsulesData = {
@@ -136,6 +137,60 @@ async function openFileInEditor(
 }
 
 async function promptForApiKeys(): Promise<void> {
+  const config = vscode.workspace.getConfiguration("rde");
+  const currentProvider = config.get<string>("aiProvider") ?? "gemini";
+  const providerPick = await vscode.window.showQuickPick(
+    [
+      { label: "Gemini", description: "Use Google Gemini for summaries", value: "gemini" },
+      { label: "Anthropic", description: "Use Claude (Anthropic) for summaries", value: "anthropic" },
+    ],
+    {
+      title: "Choose AI Provider",
+      placeHolder: "Select the AI provider for summaries",
+      ignoreFocusOut: true,
+    }
+  );
+
+  const provider = providerPick?.value ?? currentProvider;
+  await config.update("aiProvider", provider, vscode.ConfigurationTarget.Global);
+
+  if (provider === "anthropic") {
+    const anthropicKey = await vscode.window.showInputBox({
+      prompt: "Enter your Anthropic API key",
+      placeHolder: "Anthropic API key",
+      password: true,
+      ignoreFocusOut: true,
+    });
+
+    const anthropicModelPick = await vscode.window.showQuickPick(
+      [
+        { label: "claude-sonnet-4-20250514", description: "Sonnet 4 (stable)" },
+        { label: "claude-opus-4-20250514", description: "Opus 4 (stable)" },
+        { label: "claude-3-7-sonnet-20250219", description: "Sonnet 3.7" },
+        { label: "claude-3-5-sonnet-20241022", description: "Sonnet 3.5 (latest)" },
+        { label: "claude-3-5-sonnet-20240620", description: "Sonnet 3.5 (previous)" },
+        { label: "claude-3-5-haiku-20241022", description: "Haiku 3.5 (latest)" },
+        { label: "claude-3-haiku-20240307", description: "Haiku 3" },
+        { label: "claude-3-opus-20240229", description: "Opus 3" }
+      ],
+      {
+        title: "Choose an Anthropic model",
+        placeHolder: "Select a model for summaries",
+        ignoreFocusOut: true,
+      }
+    );
+
+    const anthropicModel = anthropicModelPick?.label;
+
+    if (anthropicKey !== undefined) {
+      await config.update("anthropicApiKey", anthropicKey, vscode.ConfigurationTarget.Global);
+    }
+    if (anthropicModel !== undefined) {
+      await config.update("anthropicModel", anthropicModel, vscode.ConfigurationTarget.Global);
+    }
+    return;
+  }
+
   const geminiKey = await vscode.window.showInputBox({
     prompt: "Enter your Gemini API key",
     placeHolder: "Gemini API key (starts with AIza...)",
@@ -151,12 +206,10 @@ async function promptForApiKeys(): Promise<void> {
   });
 
   if (geminiKey !== undefined) {
-    const config = vscode.workspace.getConfiguration("rde");
     await config.update("geminiApiKey", geminiKey, vscode.ConfigurationTarget.Global);
   }
 
   if (ttcKey !== undefined) {
-    const config = vscode.workspace.getConfiguration("rde");
     await config.update("ttcApiKey", ttcKey, vscode.ConfigurationTarget.Global);
   }
 }
@@ -252,14 +305,28 @@ async function generateSummariesIfConfigured(
   stats: CapsulesData["stats"]
 ): Promise<void> {
   const config = vscode.workspace.getConfiguration("rde");
-  const apiKey = config.get<string>("geminiApiKey");
-  const ttcApiKey = config.get<string>("ttcApiKey");
+  const provider = config.get<string>("aiProvider") ?? "gemini";
 
-  if (!apiKey) {
-    return;
+  let client:
+    | GeminiClient
+    | AnthropicClient
+    | undefined;
+
+  if (provider === "anthropic") {
+    const anthropicKey = config.get<string>("anthropicApiKey");
+    const anthropicModel = config.get<string>("anthropicModel");
+    if (!anthropicKey || !anthropicModel) {
+      return;
+    }
+    client = new AnthropicClient({ apiKey: anthropicKey, model: anthropicModel });
+  } else {
+    const apiKey = config.get<string>("geminiApiKey");
+    const ttcApiKey = config.get<string>("ttcApiKey");
+    if (!apiKey) {
+      return;
+    }
+    client = new GeminiClient({ apiKey, ttcApiKey });
   }
-
-  const client = new GeminiClient({ apiKey, ttcApiKey });
 
   const fileEntries = Object.entries(files);
   await processInParallelWithLimit(fileEntries, async ([relativePath, capsule]) => {
