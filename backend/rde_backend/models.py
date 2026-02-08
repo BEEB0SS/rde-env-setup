@@ -20,15 +20,22 @@ class SetupIntent(BaseModel):
     install_blocks: List[InstallBlock] = []
 
 class NormalizedDep(BaseModel):
-    kind: Literal["pip", "conda", "apt"]
+    kind: Literal["pip", "conda", "apt", "ros"]
     name: str
     spec: Optional[str] = None
     evidence: Evidence
+
+class Diagnostic(BaseModel):
+    level: Literal["info", "warn", "warning", "error"]
+    code: str
+    message: str
+    evidence: Optional[Evidence] = None
 
 class DependencySummary(BaseModel):
     pip: List[NormalizedDep] = []
     conda: List[NormalizedDep] = []
     apt: List[NormalizedDep] = []
+    ros: List[NormalizedDep] = []
 
 class Fingerprint(BaseModel):
     os: str
@@ -50,4 +57,5 @@ class AnalyzeResponse(BaseModel):
     setup_intent: SetupIntent
     dependencies: DependencySummary
     fingerprint: Fingerprint
+    diagnostics: List[Diagnostic] = []
     notes: List[str] = []

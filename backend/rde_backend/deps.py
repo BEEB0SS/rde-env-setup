@@ -5,6 +5,7 @@ from typing import List, Optional, Tuple
 import re
 import tomllib  # Python 3.11+. If you’re on 3.10, use 'tomli' instead.
 import yaml
+from .ros_deps import parse_package_xml
 
 from .models import NormalizedDep, Evidence, DependencySummary
 
@@ -156,7 +157,9 @@ def collect_dependencies(dep_paths: List[Path]) -> DependencySummary:
                         summary.pip.append(d)
             elif name == "dockerfile":
                 summary.apt.extend(parse_dockerfile_apt(p))
-            # setup.cfg and package.xml can be added next (we’ll do those right after)
+            elif name == "package.xml":
+                summary.ros.extend(parse_package_xml(p))
+            # setup.cfg needs to be done later
         except Exception:
             # keep analysis robust; never crash on a parser
             continue

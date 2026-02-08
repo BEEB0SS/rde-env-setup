@@ -1,0 +1,1040 @@
+RDE activated.
+One-Click Setup invoked.
+Choices:
+{
+  "envType": "conda",
+  "runTarget": "host",
+  "goal": "gpu_if_available",
+  "strictness": "compatible"
+}
+Ensuring backend is running...
+Backend ready at http://127.0.0.1:8844
+Calling /analyze ...
+Analyze response:
+{
+  "repoPath": "/home/pratham-madaram/Desktop/PlanetoryRobotics/dev_ws/src/cmu_zoe2",
+  "readme_path": "/home/pratham-madaram/Desktop/PlanetoryRobotics/dev_ws/src/cmu_zoe2/README.md",
+  "setup_intent": {
+    "requirements_notes": [
+      "- [Ubuntu 24.04](https://releases.ubuntu.com/jammy/)",
+      "Simulation mode can be run locally on any machine that meets the requirements. It can be run on the rover hardware, but Gazebo visualization will be unavailable.",
+      "- Make sure you are on the correct version of Ubuntu, ROS2, and Gazebo. This will not work on previous versions."
+    ],
+    "known_issues": [],
+    "expected_commands": [
+      "See install block under: cmu's zoë2 rover / setup"
+    ],
+    "install_blocks": [
+      {
+        "heading_path": [
+          "CMU's Zoë2 Rover",
+          "Setup"
+        ],
+        "language": null,
+        "code": "sudo rosdep init\nrosdep update\nrosdep install --from-paths src -y --ignore-src",
+        "evidence": {
+          "source": "README.md",
+          "location": "L14-L18",
+          "excerpt": null
+        }
+      },
+      {
+        "heading_path": [
+          "CMU's Zoë2 Rover",
+          "Teleoperation",
+          "Direct Command"
+        ],
+        "language": "bash",
+        "code": "ros2 topic pub /drive_cmd_unstamped zoe2_interfaces/msg/DriveCmd \"{speed: 0.5, angle: 0.0}\" -r 50",
+        "evidence": {
+          "source": "README.md",
+          "location": "L48-L50",
+          "excerpt": null
+        }
+      },
+      {
+        "heading_path": [
+          "CMU's Zoë2 Rover",
+          "Visualization"
+        ],
+        "language": "bash",
+        "code": "ros2 launch foxglove_bridge foxglove_bridge_launch.xml",
+        "evidence": {
+          "source": "README.md",
+          "location": "L67-L69",
+          "excerpt": null
+        }
+      }
+    ]
+  },
+  "dependencies": {
+    "pip": [],
+    "conda": [],
+    "apt": [],
+    "ros": [
+      {
+        "kind": "ros",
+        "name": "ament_cmake",
+        "spec": null,
+        "evidence": {
+          "source": "cmu_zoe2/cmu_zoe2/package.xml",
+          "location": "package.xml:buildtool_depend",
+          "excerpt": "<buildtool_depend>ament_cmake</buildtool_depend>"
+        }
+      },
+      {
+        "kind": "ros",
+        "name": "ament_cmake",
+        "spec": null,
+        "evidence": {
+          "source": "cmu_zoe2/zoe2_bringup/package.xml",
+          "location": "package.xml:buildtool_depend",
+          "excerpt": "<buildtool_depend>ament_cmake</buildtool_depend>"
+        }
+      },
+      {
+        "kind": "ros",
+        "name": "rviz2",
+        "spec": null,
+        "evidence": {
+          "source": "cmu_zoe2/zoe2_bringup/package.xml",
+          "location": "package.xml:exec_depend",
+          "excerpt": "<exec_depend>rviz2</exec_depend>"
+        }
+      },
+      {
+        "kind": "ros",
+        "name": "xacro",
+        "spec": null,
+        "evidence": {
+          "source": "cmu_zoe2/zoe2_bringup/package.xml",
+          "location": "package.xml:exec_depend",
+          "excerpt": "<exec_depend>xacro</exec_depend>"
+        }
+      },
+      {
+        "kind": "ros",
+        "name": "zoe2_description",
+        "spec": null,
+        "evidence": {
+          "source": "cmu_zoe2/zoe2_bringup/package.xml",
+          "location": "package.xml:exec_depend",
+          "excerpt": "<exec_depend>zoe2_description</exec_depend>"
+        }
+      },
+      {
+        "kind": "ros",
+        "name": "ros_gz_bridge",
+        "spec": null,
+        "evidence": {
+          "source": "cmu_zoe2/zoe2_bringup/package.xml",
+          "location": "package.xml:exec_depend",
+          "excerpt": "<exec_depend>ros_gz_bridge</exec_depend>"
+        }
+      },
+      {
+        "kind": "ros",
+        "name": "ros_gz_sim",
+        "spec": null,
+        "evidence": {
+          "source": "cmu_zoe2/zoe2_bringup/package.xml",
+          "location": "package.xml:exec_depend",
+          "excerpt": "<exec_depend>ros_gz_sim</exec_depend>"
+        }
+      },
+      {
+        "kind": "ros",
+        "name": "controller_manager",
+        "spec": null,
+        "evidence": {
+          "source": "cmu_zoe2/zoe2_bringup/package.xml",
+          "location": "package.xml:exec_depend",
+          "excerpt": "<exec_depend>controller_manager</exec_depend>"
+        }
+      },
+      {
+        "kind": "ros",
+        "name": "diff_drive_controller",
+        "spec": null,
+        "evidence": {
+          "source": "cmu_zoe2/zoe2_bringup/package.xml",
+          "location": "package.xml:exec_depend",
+          "excerpt": "<exec_depend>diff_drive_controller</exec_depend>"
+        }
+      },
+      {
+        "kind": "ros",
+        "name": "velocity_controllers",
+        "spec": null,
+        "evidence": {
+          "source": "cmu_zoe2/zoe2_bringup/package.xml",
+          "location": "package.xml:exec_depend",
+          "excerpt": "<exec_depend>velocity_controllers</exec_depend>"
+        }
+      },
+      {
+        "kind": "ros",
+        "name": "joint_state_broadcaster",
+        "spec": null,
+        "evidence": {
+          "source": "cmu_zoe2/zoe2_bringup/package.xml",
+          "location": "package.xml:exec_depend",
+          "excerpt": "<exec_depend>joint_state_broadcaster</exec_depend>"
+        }
+      },
+      {
+        "kind": "ros",
+        "name": "robot_state_publisher",
+        "spec": null,
+        "evidence": {
+          "source": "cmu_zoe2/zoe2_bringup/package.xml",
+          "location": "package.xml:exec_depend",
+          "excerpt": "<exec_depend>robot_state_publisher</exec_depend>"
+        }
+      },
+      {
+        "kind": "ros",
+        "name": "ros2_controllers_test_nodes",
+        "spec": null,
+        "evidence": {
+          "source": "cmu_zoe2/zoe2_bringup/package.xml",
+          "location": "package.xml:exec_depend",
+          "excerpt": "<exec_depend>ros2_controllers_test_nodes</exec_depend>"
+        }
+      },
+      {
+        "kind": "ros",
+        "name": "ament_cmake",
+        "spec": null,
+        "evidence": {
+          "source": "cmu_zoe2/zoe2_controller/package.xml",
+          "location": "package.xml:buildtool_depend",
+          "excerpt": "<buildtool_depend>ament_cmake</buildtool_depend>"
+        }
+      },
+      {
+        "kind": "ros",
+        "name": "generate_parameter_library",
+        "spec": null,
+        "evidence": {
+          "source": "cmu_zoe2/zoe2_controller/package.xml",
+          "location": "package.xml:build_depend",
+          "excerpt": "<build_depend>generate_parameter_library</build_depend>"
+        }
+      },
+      {
+        "kind": "ros",
+        "name": "backward_ros",
+        "spec": null,
+        "evidence": {
+          "source": "cmu_zoe2/zoe2_controller/package.xml",
+          "location": "package.xml:depend",
+          "excerpt": "<depend>backward_ros</depend>"
+        }
+      },
+      {
+        "kind": "ros",
+        "name": "controller_interface",
+        "spec": null,
+        "evidence": {
+          "source": "cmu_zoe2/zoe2_controller/package.xml",
+          "location": "package.xml:depend",
+          "excerpt": "<depend>controller_interface</depend>"
+        }
+      },
+      {
+        "kind": "ros",
+        "name": "geometry_msgs",
+        "spec": null,
+        "evidence": {
+          "source": "cmu_zoe2/zoe2_controller/package.xml",
+          "location": "package.xml:depend",
+          "excerpt": "<depend>geometry_msgs</depend>"
+        }
+      },
+      {
+        "kind": "ros",
+        "name": "hardware_interface",
+        "spec": null,
+        "evidence": {
+          "source": "cmu_zoe2/zoe2_controller/package.xml",
+          "location": "package.xml:depend",
+          "excerpt": "<depend>hardware_interface</depend>"
+        }
+      },
+      {
+        "kind": "ros",
+        "name": "nav_msgs",
+        "spec": null,
+        "evidence": {
+          "source": "cmu_zoe2/zoe2_controller/package.xml",
+          "location": "package.xml:depend",
+          "excerpt": "<depend>nav_msgs</depend>"
+        }
+      },
+      {
+        "kind": "ros",
+        "name": "pluginlib",
+        "spec": null,
+        "evidence": {
+          "source": "cmu_zoe2/zoe2_controller/package.xml",
+          "location": "package.xml:depend",
+          "excerpt": "<depend>pluginlib</depend>"
+        }
+      },
+      {
+        "kind": "ros",
+        "name": "rclcpp",
+        "spec": null,
+        "evidence": {
+          "source": "cmu_zoe2/zoe2_controller/package.xml",
+          "location": "package.xml:depend",
+          "excerpt": "<depend>rclcpp</depend>"
+        }
+      },
+      {
+        "kind": "ros",
+        "name": "rclcpp_lifecycle",
+        "spec": null,
+        "evidence": {
+          "source": "cmu_zoe2/zoe2_controller/package.xml",
+          "location": "package.xml:depend",
+          "excerpt": "<depend>rclcpp_lifecycle</depend>"
+        }
+      },
+      {
+        "kind": "ros",
+        "name": "rcpputils",
+        "spec": null,
+        "evidence": {
+          "source": "cmu_zoe2/zoe2_controller/package.xml",
+          "location": "package.xml:depend",
+          "excerpt": "<depend>rcpputils</depend>"
+        }
+      },
+      {
+        "kind": "ros",
+        "name": "realtime_tools",
+        "spec": null,
+        "evidence": {
+          "source": "cmu_zoe2/zoe2_controller/package.xml",
+          "location": "package.xml:depend",
+          "excerpt": "<depend>realtime_tools</depend>"
+        }
+      },
+      {
+        "kind": "ros",
+        "name": "tf2",
+        "spec": null,
+        "evidence": {
+          "source": "cmu_zoe2/zoe2_controller/package.xml",
+          "location": "package.xml:depend",
+          "excerpt": "<depend>tf2</depend>"
+        }
+      },
+      {
+        "kind": "ros",
+        "name": "tf2_msgs",
+        "spec": null,
+        "evidence": {
+          "source": "cmu_zoe2/zoe2_controller/package.xml",
+          "location": "package.xml:depend",
+          "excerpt": "<depend>tf2_msgs</depend>"
+        }
+      },
+      {
+        "kind": "ros",
+        "name": "zoe2_interfaces",
+        "spec": null,
+        "evidence": {
+          "source": "cmu_zoe2/zoe2_controller/package.xml",
+          "location": "package.xml:depend",
+          "excerpt": "<depend>zoe2_interfaces</depend>"
+        }
+      },
+      {
+        "kind": "ros",
+        "name": "ament_cmake_gmock",
+        "spec": null,
+        "evidence": {
+          "source": "cmu_zoe2/zoe2_controller/package.xml",
+          "location": "package.xml:test_depend",
+          "excerpt": "<test_depend>ament_cmake_gmock</test_depend>"
+        }
+      },
+      {
+        "kind": "ros",
+        "name": "controller_manager",
+        "spec": null,
+        "evidence": {
+          "source": "cmu_zoe2/zoe2_controller/package.xml",
+          "location": "package.xml:test_depend",
+          "excerpt": "<test_depend>controller_manager</test_depend>"
+        }
+      },
+      {
+        "kind": "ros",
+        "name": "ros2_control_test_assets",
+        "spec": null,
+        "evidence": {
+          "source": "cmu_zoe2/zoe2_controller/package.xml",
+          "location": "package.xml:test_depend",
+          "excerpt": "<test_depend>ros2_control_test_assets</test_depend>"
+        }
+      },
+      {
+        "kind": "ros",
+        "name": "ament_cmake",
+        "spec": null,
+        "evidence": {
+          "source": "cmu_zoe2/zoe2_description/package.xml",
+          "location": "package.xml:buildtool_depend",
+          "excerpt": "<buildtool_depend>ament_cmake</buildtool_depend>"
+        }
+      },
+      {
+        "kind": "ros",
+        "name": "joint_state_publisher_gui",
+        "spec": null,
+        "evidence": {
+          "source": "cmu_zoe2/zoe2_description/package.xml",
+          "location": "package.xml:exec_depend",
+          "excerpt": "<exec_depend>joint_state_publisher_gui</exec_depend>"
+        }
+      },
+      {
+        "kind": "ros",
+        "name": "robot_state_publisher",
+        "spec": null,
+        "evidence": {
+          "source": "cmu_zoe2/zoe2_description/package.xml",
+          "location": "package.xml:exec_depend",
+          "excerpt": "<exec_depend>robot_state_publisher</exec_depend>"
+        }
+      },
+      {
+        "kind": "ros",
+        "name": "rviz2",
+        "spec": null,
+        "evidence": {
+          "source": "cmu_zoe2/zoe2_description/package.xml",
+          "location": "package.xml:exec_depend",
+          "excerpt": "<exec_depend>rviz2</exec_depend>"
+        }
+      },
+      {
+        "kind": "ros",
+        "name": "xacro",
+        "spec": null,
+        "evidence": {
+          "source": "cmu_zoe2/zoe2_description/package.xml",
+          "location": "package.xml:exec_depend",
+          "excerpt": "<exec_depend>xacro</exec_depend>"
+        }
+      },
+      {
+        "kind": "ros",
+        "name": "ros_gz_bridge",
+        "spec": null,
+        "evidence": {
+          "source": "cmu_zoe2/zoe2_description/package.xml",
+          "location": "package.xml:exec_depend",
+          "excerpt": "<exec_depend>ros_gz_bridge</exec_depend>"
+        }
+      },
+      {
+        "kind": "ros",
+        "name": "ros_gz_sim",
+        "spec": null,
+        "evidence": {
+          "source": "cmu_zoe2/zoe2_description/package.xml",
+          "location": "package.xml:exec_depend",
+          "excerpt": "<exec_depend>ros_gz_sim</exec_depend>"
+        }
+      },
+      {
+        "kind": "ros",
+        "name": "ament_cmake_pytest",
+        "spec": null,
+        "evidence": {
+          "source": "cmu_zoe2/zoe2_description/package.xml",
+          "location": "package.xml:test_depend",
+          "excerpt": "<test_depend>ament_cmake_pytest</test_depend>"
+        }
+      },
+      {
+        "kind": "ros",
+        "name": "launch_testing_ament_cmake",
+        "spec": null,
+        "evidence": {
+          "source": "cmu_zoe2/zoe2_description/package.xml",
+          "location": "package.xml:test_depend",
+          "excerpt": "<test_depend>launch_testing_ament_cmake</test_depend>"
+        }
+      },
+      {
+        "kind": "ros",
+        "name": "launch_testing_ros",
+        "spec": null,
+        "evidence": {
+          "source": "cmu_zoe2/zoe2_description/package.xml",
+          "location": "package.xml:test_depend",
+          "excerpt": "<test_depend>launch_testing_ros</test_depend>"
+        }
+      },
+      {
+        "kind": "ros",
+        "name": "liburdfdom-tools",
+        "spec": null,
+        "evidence": {
+          "source": "cmu_zoe2/zoe2_description/package.xml",
+          "location": "package.xml:test_depend",
+          "excerpt": "<test_depend>liburdfdom-tools</test_depend>"
+        }
+      },
+      {
+        "kind": "ros",
+        "name": "ament_cmake",
+        "spec": null,
+        "evidence": {
+          "source": "cmu_zoe2/zoe2_hardware/package.xml",
+          "location": "package.xml:buildtool_depend",
+          "excerpt": "<buildtool_depend>ament_cmake</buildtool_depend>"
+        }
+      },
+      {
+        "kind": "ros",
+        "name": "backward_ros",
+        "spec": null,
+        "evidence": {
+          "source": "cmu_zoe2/zoe2_hardware/package.xml",
+          "location": "package.xml:depend",
+          "excerpt": "<depend>backward_ros</depend>"
+        }
+      },
+      {
+        "kind": "ros",
+        "name": "hardware_interface",
+        "spec": null,
+        "evidence": {
+          "source": "cmu_zoe2/zoe2_hardware/package.xml",
+          "location": "package.xml:depend",
+          "excerpt": "<depend>hardware_interface</depend>"
+        }
+      },
+      {
+        "kind": "ros",
+        "name": "pluginlib",
+        "spec": null,
+        "evidence": {
+          "source": "cmu_zoe2/zoe2_hardware/package.xml",
+          "location": "package.xml:depend",
+          "excerpt": "<depend>pluginlib</depend>"
+        }
+      },
+      {
+        "kind": "ros",
+        "name": "rclcpp",
+        "spec": null,
+        "evidence": {
+          "source": "cmu_zoe2/zoe2_hardware/package.xml",
+          "location": "package.xml:depend",
+          "excerpt": "<depend>rclcpp</depend>"
+        }
+      },
+      {
+        "kind": "ros",
+        "name": "rclcpp_lifecycle",
+        "spec": null,
+        "evidence": {
+          "source": "cmu_zoe2/zoe2_hardware/package.xml",
+          "location": "package.xml:depend",
+          "excerpt": "<depend>rclcpp_lifecycle</depend>"
+        }
+      },
+      {
+        "kind": "ros",
+        "name": "ament_lint_auto",
+        "spec": null,
+        "evidence": {
+          "source": "cmu_zoe2/zoe2_hardware/package.xml",
+          "location": "package.xml:test_depend",
+          "excerpt": "<test_depend>ament_lint_auto</test_depend>"
+        }
+      },
+      {
+        "kind": "ros",
+        "name": "ament_lint_common",
+        "spec": null,
+        "evidence": {
+          "source": "cmu_zoe2/zoe2_hardware/package.xml",
+          "location": "package.xml:test_depend",
+          "excerpt": "<test_depend>ament_lint_common</test_depend>"
+        }
+      },
+      {
+        "kind": "ros",
+        "name": "ament_cmake",
+        "spec": null,
+        "evidence": {
+          "source": "cmu_zoe2/zoe2_interfaces/package.xml",
+          "location": "package.xml:buildtool_depend",
+          "excerpt": "<buildtool_depend>ament_cmake</buildtool_depend>"
+        }
+      },
+      {
+        "kind": "ros",
+        "name": "rosidl_default_generators",
+        "spec": null,
+        "evidence": {
+          "source": "cmu_zoe2/zoe2_interfaces/package.xml",
+          "location": "package.xml:build_depend",
+          "excerpt": "<build_depend>rosidl_default_generators</build_depend>"
+        }
+      },
+      {
+        "kind": "ros",
+        "name": "rosidl_default_runtime",
+        "spec": null,
+        "evidence": {
+          "source": "cmu_zoe2/zoe2_interfaces/package.xml",
+          "location": "package.xml:exec_depend",
+          "excerpt": "<exec_depend>rosidl_default_runtime</exec_depend>"
+        }
+      },
+      {
+        "kind": "ros",
+        "name": "std_msgs",
+        "spec": null,
+        "evidence": {
+          "source": "cmu_zoe2/zoe2_interfaces/package.xml",
+          "location": "package.xml:depend",
+          "excerpt": "<depend>std_msgs</depend>"
+        }
+      },
+      {
+        "kind": "ros",
+        "name": "rclpy",
+        "spec": null,
+        "evidence": {
+          "source": "cmu_zoe2/zoe2_joystick/package.xml",
+          "location": "package.xml:build_depend",
+          "excerpt": "<build_depend>rclpy</build_depend>"
+        }
+      },
+      {
+        "kind": "ros",
+        "name": "geometry_msgs",
+        "spec": null,
+        "evidence": {
+          "source": "cmu_zoe2/zoe2_joystick/package.xml",
+          "location": "package.xml:build_depend",
+          "excerpt": "<build_depend>geometry_msgs</build_depend>"
+        }
+      },
+      {
+        "kind": "ros",
+        "name": "joy",
+        "spec": null,
+        "evidence": {
+          "source": "cmu_zoe2/zoe2_joystick/package.xml",
+          "location": "package.xml:build_depend",
+          "excerpt": "<build_depend>joy</build_depend>"
+        }
+      },
+      {
+        "kind": "ros",
+        "name": "teleop_twist_joy",
+        "spec": null,
+        "evidence": {
+          "source": "cmu_zoe2/zoe2_joystick/package.xml",
+          "location": "package.xml:build_depend",
+          "excerpt": "<build_depend>teleop_twist_joy</build_depend>"
+        }
+      },
+      {
+        "kind": "ros",
+        "name": "ros2launch",
+        "spec": null,
+        "evidence": {
+          "source": "cmu_zoe2/zoe2_joystick/package.xml",
+          "location": "package.xml:exec_depend",
+          "excerpt": "<exec_depend>ros2launch</exec_depend>"
+        }
+      },
+      {
+        "kind": "ros",
+        "name": "ament_copyright",
+        "spec": null,
+        "evidence": {
+          "source": "cmu_zoe2/zoe2_joystick/package.xml",
+          "location": "package.xml:test_depend",
+          "excerpt": "<test_depend>ament_copyright</test_depend>"
+        }
+      },
+      {
+        "kind": "ros",
+        "name": "ament_flake8",
+        "spec": null,
+        "evidence": {
+          "source": "cmu_zoe2/zoe2_joystick/package.xml",
+          "location": "package.xml:test_depend",
+          "excerpt": "<test_depend>ament_flake8</test_depend>"
+        }
+      },
+      {
+        "kind": "ros",
+        "name": "ament_pep257",
+        "spec": null,
+        "evidence": {
+          "source": "cmu_zoe2/zoe2_joystick/package.xml",
+          "location": "package.xml:test_depend",
+          "excerpt": "<test_depend>ament_pep257</test_depend>"
+        }
+      },
+      {
+        "kind": "ros",
+        "name": "python3-pytest",
+        "spec": null,
+        "evidence": {
+          "source": "cmu_zoe2/zoe2_joystick/package.xml",
+          "location": "package.xml:test_depend",
+          "excerpt": "<test_depend>python3-pytest</test_depend>"
+        }
+      },
+      {
+        "kind": "ros",
+        "name": "zoe2_interfaces",
+        "spec": null,
+        "evidence": {
+          "source": "cmu_zoe2/zoe2_joystick/package.xml",
+          "location": "package.xml:depend",
+          "excerpt": "<depend>zoe2_interfaces</depend>"
+        }
+      },
+      {
+        "kind": "ros",
+        "name": "ament_cmake",
+        "spec": null,
+        "evidence": {
+          "source": "cmu_zoe2/zoe2_odom/package.xml",
+          "location": "package.xml:buildtool_depend",
+          "excerpt": "<buildtool_depend>ament_cmake</buildtool_depend>"
+        }
+      },
+      {
+        "kind": "ros",
+        "name": "rclcpp",
+        "spec": null,
+        "evidence": {
+          "source": "cmu_zoe2/zoe2_odom/package.xml",
+          "location": "package.xml:depend",
+          "excerpt": "<depend>rclcpp</depend>"
+        }
+      },
+      {
+        "kind": "ros",
+        "name": "tf2_ros",
+        "spec": null,
+        "evidence": {
+          "source": "cmu_zoe2/zoe2_odom/package.xml",
+          "location": "package.xml:depend",
+          "excerpt": "<depend>tf2_ros</depend>"
+        }
+      },
+      {
+        "kind": "ros",
+        "name": "nav_msgs",
+        "spec": null,
+        "evidence": {
+          "source": "cmu_zoe2/zoe2_odom/package.xml",
+          "location": "package.xml:depend",
+          "excerpt": "<depend>nav_msgs</depend>"
+        }
+      },
+      {
+        "kind": "ros",
+        "name": "launch",
+        "spec": null,
+        "evidence": {
+          "source": "cmu_zoe2/zoe2_odom/package.xml",
+          "location": "package.xml:depend",
+          "excerpt": "<depend>launch</depend>"
+        }
+      },
+      {
+        "kind": "ros",
+        "name": "ament_cmake",
+        "spec": null,
+        "evidence": {
+          "source": "vectornav/vectornav/package.xml",
+          "location": "package.xml:buildtool_depend",
+          "excerpt": "<buildtool_depend>ament_cmake</buildtool_depend>"
+        }
+      },
+      {
+        "kind": "ros",
+        "name": "rclcpp",
+        "spec": null,
+        "evidence": {
+          "source": "vectornav/vectornav/package.xml",
+          "location": "package.xml:depend",
+          "excerpt": "<depend>rclcpp</depend>"
+        }
+      },
+      {
+        "kind": "ros",
+        "name": "rclcpp_action",
+        "spec": null,
+        "evidence": {
+          "source": "vectornav/vectornav/package.xml",
+          "location": "package.xml:depend",
+          "excerpt": "<depend>rclcpp_action</depend>"
+        }
+      },
+      {
+        "kind": "ros",
+        "name": "rclcpp_components",
+        "spec": null,
+        "evidence": {
+          "source": "vectornav/vectornav/package.xml",
+          "location": "package.xml:depend",
+          "excerpt": "<depend>rclcpp_components</depend>"
+        }
+      },
+      {
+        "kind": "ros",
+        "name": "geometry_msgs",
+        "spec": null,
+        "evidence": {
+          "source": "vectornav/vectornav/package.xml",
+          "location": "package.xml:depend",
+          "excerpt": "<depend>geometry_msgs</depend>"
+        }
+      },
+      {
+        "kind": "ros",
+        "name": "sensor_msgs",
+        "spec": null,
+        "evidence": {
+          "source": "vectornav/vectornav/package.xml",
+          "location": "package.xml:depend",
+          "excerpt": "<depend>sensor_msgs</depend>"
+        }
+      },
+      {
+        "kind": "ros",
+        "name": "vectornav_msgs",
+        "spec": null,
+        "evidence": {
+          "source": "vectornav/vectornav/package.xml",
+          "location": "package.xml:depend",
+          "excerpt": "<depend>vectornav_msgs</depend>"
+        }
+      },
+      {
+        "kind": "ros",
+        "name": "tf2_geometry_msgs",
+        "spec": null,
+        "evidence": {
+          "source": "vectornav/vectornav/package.xml",
+          "location": "package.xml:depend",
+          "excerpt": "<depend>tf2_geometry_msgs</depend>"
+        }
+      },
+      {
+        "kind": "ros",
+        "name": "rosidl_adapter",
+        "spec": null,
+        "evidence": {
+          "source": "vectornav/vectornav/package.xml",
+          "location": "package.xml:depend",
+          "excerpt": "<depend>rosidl_adapter</depend>"
+        }
+      },
+      {
+        "kind": "ros",
+        "name": "ament_lint_auto",
+        "spec": null,
+        "evidence": {
+          "source": "vectornav/vectornav/package.xml",
+          "location": "package.xml:test_depend",
+          "excerpt": "<test_depend>ament_lint_auto</test_depend>"
+        }
+      },
+      {
+        "kind": "ros",
+        "name": "ament_lint_common",
+        "spec": null,
+        "evidence": {
+          "source": "vectornav/vectornav/package.xml",
+          "location": "package.xml:test_depend",
+          "excerpt": "<test_depend>ament_lint_common</test_depend>"
+        }
+      },
+      {
+        "kind": "ros",
+        "name": "ament_cmake_auto",
+        "spec": null,
+        "evidence": {
+          "source": "vectornav/vectornav_msgs/package.xml",
+          "location": "package.xml:buildtool_depend",
+          "excerpt": "<buildtool_depend>ament_cmake_auto</buildtool_depend>"
+        }
+      },
+      {
+        "kind": "ros",
+        "name": "rosidl_default_generators",
+        "spec": null,
+        "evidence": {
+          "source": "vectornav/vectornav_msgs/package.xml",
+          "location": "package.xml:buildtool_depend",
+          "excerpt": "<buildtool_depend>rosidl_default_generators</buildtool_depend>"
+        }
+      },
+      {
+        "kind": "ros",
+        "name": "geometry_msgs",
+        "spec": null,
+        "evidence": {
+          "source": "vectornav/vectornav_msgs/package.xml",
+          "location": "package.xml:depend",
+          "excerpt": "<depend>geometry_msgs</depend>"
+        }
+      },
+      {
+        "kind": "ros",
+        "name": "rosidl_default_runtime",
+        "spec": null,
+        "evidence": {
+          "source": "vectornav/vectornav_msgs/package.xml",
+          "location": "package.xml:exec_depend",
+          "excerpt": "<exec_depend>rosidl_default_runtime</exec_depend>"
+        }
+      },
+      {
+        "kind": "ros",
+        "name": "ament_lint_auto",
+        "spec": null,
+        "evidence": {
+          "source": "vectornav/vectornav_msgs/package.xml",
+          "location": "package.xml:test_depend",
+          "excerpt": "<test_depend>ament_lint_auto</test_depend>"
+        }
+      },
+      {
+        "kind": "ros",
+        "name": "ament_cmake",
+        "spec": null,
+        "evidence": {
+          "source": "cmu_zoe2/zoe2_visualizers/package.xml",
+          "location": "package.xml:buildtool_depend",
+          "excerpt": "<buildtool_depend>ament_cmake</buildtool_depend>"
+        }
+      },
+      {
+        "kind": "ros",
+        "name": "rclcpp",
+        "spec": null,
+        "evidence": {
+          "source": "cmu_zoe2/zoe2_visualizers/package.xml",
+          "location": "package.xml:depend",
+          "excerpt": "<depend>rclcpp</depend>"
+        }
+      },
+      {
+        "kind": "ros",
+        "name": "geometry_msgs",
+        "spec": null,
+        "evidence": {
+          "source": "cmu_zoe2/zoe2_visualizers/package.xml",
+          "location": "package.xml:depend",
+          "excerpt": "<depend>geometry_msgs</depend>"
+        }
+      },
+      {
+        "kind": "ros",
+        "name": "visualization_msgs",
+        "spec": null,
+        "evidence": {
+          "source": "cmu_zoe2/zoe2_visualizers/package.xml",
+          "location": "package.xml:depend",
+          "excerpt": "<depend>visualization_msgs</depend>"
+        }
+      },
+      {
+        "kind": "ros",
+        "name": "launch",
+        "spec": null,
+        "evidence": {
+          "source": "cmu_zoe2/zoe2_visualizers/package.xml",
+          "location": "package.xml:depend",
+          "excerpt": "<depend>launch</depend>"
+        }
+      },
+      {
+        "kind": "ros",
+        "name": "ament_lint_auto",
+        "spec": null,
+        "evidence": {
+          "source": "cmu_zoe2/zoe2_visualizers/package.xml",
+          "location": "package.xml:test_depend",
+          "excerpt": "<test_depend>ament_lint_auto</test_depend>"
+        }
+      },
+      {
+        "kind": "ros",
+        "name": "ament_lint_common",
+        "spec": null,
+        "evidence": {
+          "source": "cmu_zoe2/zoe2_visualizers/package.xml",
+          "location": "package.xml:test_depend",
+          "excerpt": "<test_depend>ament_lint_common</test_depend>"
+        }
+      }
+    ]
+  },
+  "fingerprint": {
+    "os": "Linux",
+    "os_version": "#37~24.04.1-Ubuntu SMP PREEMPT_DYNAMIC Thu Nov 20 10:25:38 UTC 2",
+    "arch": "x86_64",
+    "python_executables": [
+      "python",
+      "python3"
+    ],
+    "python_versions": {
+      "python": "3.12.3",
+      "python3": "3.12.3"
+    },
+    "gpu_present": true,
+    "nvidia_smi_ok": true,
+    "nvcc_ok": false,
+    "wsl_available": null
+  },
+  "diagnostics": [
+    {
+      "level": "info",
+      "code": "platform.ros2.inferred",
+      "message": "Based on Ubuntu 24.04, this repo likely targets ROS 2 Jazzy. A typical system Python is ~3.12.",
+      "evidence": {
+        "source": "README.md",
+        "location": "README.md:3",
+        "excerpt": "- [Ubuntu 24.04](https://releases.ubuntu.com/jammy/)"
+      }
+    },
+    {
+      "level": "info",
+      "code": "platform.cuda.missing_toolkit",
+      "message": "GPU is detected (nvidia-smi works) but CUDA toolkit (nvcc) is not found. Some GPU builds may require installing CUDA toolkit or using conda/cuda wheels.",
+      "evidence": null
+    }
+  ],
+  "notes": [
+    "Found 11 dependency-related files.",
+    "Found 9 scripts."
+  ]
+}
+
+Diagnostics:
+- [info] platform.ros2.inferred: Based on Ubuntu 24.04, this repo likely targets ROS 2 Jazzy. A typical system Python is ~3.12. (README.md:README.md:3)
+- [info] platform.cuda.missing_toolkit: GPU is detected (nvidia-smi works) but CUDA toolkit (nvcc) is not found. Some GPU builds may require installing CUDA toolkit or using conda/cuda whee

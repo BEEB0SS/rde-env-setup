@@ -7,6 +7,8 @@ from .repo_scan import discover_repo_files
 from .readme_intent import parse_readme
 from .deps import collect_dependencies
 from .fingerprint import fingerprint_system
+from .readme_expectations import extract_expected_platform
+from .diagnostics import build_platform_diagnostics
 
 app = FastAPI(title="RDE Backend", version="0.0.1")
 
@@ -28,18 +30,27 @@ class SolveRequest(BaseModel):
 
 @app.post("/analyze", response_model = AnalyzeResponse)
 def analyze(req: AnalyzeRequest):
-    print(f"[analyze] repoPath={req.repoPath}")
     repo_files = discover_repo_files(req.repoPath)
 
+    # README intent extraction
     setup_intent = SetupIntent()
     readme_path = None
+    diagnostics = []
+    fp = fingerprint_system()
     if repo_files.readme:
         readme_path = str(repo_files.readme)
+
+        # 1) Procedural intent (install blocks, etc.)
         setup_intent = parse_readme(repo_files.readme)
 
+        # 2) Platform expectations + mismatch diagnostics
+        exp = extract_expected_platform(repo_files.readme)
+        
+        diagnostics = build_platform_diagnostics(exp, fp)
+    # Dependency extraction (deterministic parsers)
     deps = collect_dependencies(repo_files.dep_files)
-    fp = fingerprint_system()
 
+    # Notes (human-readable summary)
     notes = []
     if not repo_files.readme:
         notes.append("No README found at repo root.")
@@ -52,6 +63,7 @@ def analyze(req: AnalyzeRequest):
         setup_intent=setup_intent,
         dependencies=deps,
         fingerprint=fp,
+        diagnostics=diagnostics,
         notes=notes,
     )
 
