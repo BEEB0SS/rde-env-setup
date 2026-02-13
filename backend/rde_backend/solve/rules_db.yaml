@@ -1,0 +1,17 @@
+rules:
+  - id: windows_tf_cap
+    when:
+      os: Windows
+      runTarget: host
+      hasPackage: tensorflow
+    then:
+      pin:
+        tensorflow: "<=2.10.*"
+      note: "TensorFlow native Windows is limited; cap TF."
+
+  - id: gpu_no_nvcc
+    when:
+      gpuPresent: true
+      nvccOk: false
+    then:
+      warn: "GPU present but nvcc missing. Prefer conda cuda-toolkit or wheels."

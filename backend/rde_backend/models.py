@@ -59,3 +59,54 @@ class AnalyzeResponse(BaseModel):
     fingerprint: Fingerprint
     diagnostics: List[Diagnostic] = []
     notes: List[str] = []
+
+class PlanStep(BaseModel):
+    title: str
+    commands: List[str] = []
+    why: str = ""
+    evidence: Optional[Dict[str, Any]] = None
+    requires_confirmation: bool = True
+
+class ResolutionAttempt(BaseModel):
+    tool: str                      # "uv" | "pip-tools" | "micromamba"
+    success: bool
+    summary: str = ""
+    stdout_tail: str = ""
+    stderr_tail: str = ""
+
+class Conflict(BaseModel):
+    package: Optional[str] = None
+    message: str
+    raw: Optional[str] = None
+
+class DecisionPointOption(BaseModel):
+    id: str
+    label: str
+    description: str = ""
+
+class DecisionPoint(BaseModel):
+    reason: str
+    options: List[DecisionPointOption]
+
+class SolveDecision(BaseModel):
+    envType: str                   # conda|venv|docker|devcontainer|repo_installer|plan_only
+    runTarget: str                 # host|wsl2|container
+    goal: str                      # cpu_only|gpu_if_available|auto
+    strictness: str                # compatible|recent
+    pythonTarget: Optional[str] = None
+    ros2Distro: Optional[str] = None
+
+class SolveRequest(BaseModel):
+    repoPath: str
+    choices: Dict[str, Any]
+    analysis: Dict[str, Any]
+
+class SolveResponse(BaseModel):
+    repoPath: str
+    decision: SolveDecision
+    constraints_summary: Dict[str, Any] = {}
+    plan_steps: List[PlanStep] = []
+    resolution_attempts: List[ResolutionAttempt] = []
+    conflicts: List[Conflict] = []
+    decision_point: Optional[DecisionPoint] = None
+    notes: List[str] = []
