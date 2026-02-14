@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
 from pathlib import Path
-from .models import AnalyzeRequest, AnalyzeResponse, SetupIntent, DependencySummary
+from .models import AnalyzeRequest, AnalyzeResponse, SetupIntent, DependencySummary, SolveRequest, SolveResponse
 import uvicorn
 from .repo_scan import discover_repo_files
 from .readme_intent import parse_readme
@@ -9,6 +9,8 @@ from .deps import collect_dependencies
 from .fingerprint import fingerprint_system
 from .readme_expectations import extract_expected_platform
 from .diagnostics import build_platform_diagnostics
+from .solve.solve import solve as solver
+
 
 app = FastAPI(title="RDE Backend", version="0.0.1")
 
@@ -68,15 +70,9 @@ def analyze(req: AnalyzeRequest):
     )
 
 
-@app.post("/solve")
+@app.post("/solve", response_model=SolveResponse)
 def solve(req: SolveRequest):
-    # Phase 0 stub: echo choices back
-    return {
-        "repoPath": req.repoPath,
-        "choices": req.choices,
-        "decision": {"strategy": "stub", "python": "unknown"},
-        "notes": ["stub solve response"],
-    }
+    return solver(req.repoPath, req.choices, req.analysis)
 
 
 @app.post("/generate")

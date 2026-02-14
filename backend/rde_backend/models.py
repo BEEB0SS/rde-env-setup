@@ -61,6 +61,7 @@ class AnalyzeResponse(BaseModel):
     notes: List[str] = []
 
 class PlanStep(BaseModel):
+    kind: Literal["env", "ros", "validate", "misc"] = "misc"
     title: str
     commands: List[str] = []
     why: str = ""
@@ -88,6 +89,17 @@ class DecisionPoint(BaseModel):
     reason: str
     options: List[DecisionPointOption]
 
+class ConstraintsSummary(BaseModel):
+    os: str | None = None
+    python_current: str | None = None          # "3.12"
+    python_current_full: str | None = None     # "3.12.3"
+    python_candidates: list[str] = []
+    critical: list[str] = []
+    pin_overrides: dict[str, str] = {}
+    warnings: list[str] = []
+    reasons: list[str] = []
+
+
 class SolveDecision(BaseModel):
     envType: str                   # conda|venv|docker|devcontainer|repo_installer|plan_only
     runTarget: str                 # host|wsl2|container
@@ -104,9 +116,10 @@ class SolveRequest(BaseModel):
 class SolveResponse(BaseModel):
     repoPath: str
     decision: SolveDecision
-    constraints_summary: Dict[str, Any] = {}
+    constraints_summary: ConstraintsSummary = ConstraintsSummary()
     plan_steps: List[PlanStep] = []
     resolution_attempts: List[ResolutionAttempt] = []
     conflicts: List[Conflict] = []
+    schema_version: str = "2.0"
     decision_point: Optional[DecisionPoint] = None
     notes: List[str] = []

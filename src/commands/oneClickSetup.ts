@@ -3,6 +3,12 @@ import { runOneClickWizard } from "./oneClickWizard";
 import { getServices } from "../servicesSingleton";
 import { ensureBackendReady } from "../backend/backendManager";
 import { postJson } from "../backend/client";
+import type { SolveResponse } from "../types/backendTypes";
+import { formatSolveReport } from "./formatSolveReport";
+import { handleDecisionPoint } from "./handleDecisionPoint";
+import { maybeRunPlanSteps } from "./runPlanSteps";
+
+
 
 type Diagnostic = {
   level: "info" | "warn" | "error";
@@ -87,14 +93,53 @@ export async function runOneClickSetup(): Promise<void> {
     // Call /solve (still stub)
     solverLog.show(true);
     solverLog.appendLine("Calling /solve ...");
-    const solve = await postJson<any>(baseUrl, "/solve", {
+    let solve = await postJson<SolveResponse>(baseUrl, "/solve", {
       repoPath: workspaceRoot,
       choices,
       analysis,
     });
 
-    solverLog.appendLine("Solve response:");
-    solverLog.appendLine(JSON.stringify(solve, null, 2));
+    // up to 10 decision rounds to avoid infinite loops
+    for (let i = 0; i < 10; i++) {
+      if (!solve.decision_point) {
+        break;
+      }
+
+      log.appendLine("Decision point requested by solver.");
+      log.appendLine(solve.decision_point.reason);
+
+      const selected = await handleDecisionPoint(solve.decision_point);
+      if (!selected) {
+        log.appendLine("User cancelled decision point.");
+        return;
+      }
+
+      // map selection into choice overrides (your backend can formalize this later)
+      if (selected === "cpu") {
+        choices.goal = "cpu";
+      }
+      if (selected === "wsl2") {
+        choices.runTarget = "wsl2";
+      }
+      if (selected === "docker") {
+        choices.envType = "docker";
+        choices.runTarget = "container";
+      }
+
+      log.appendLine(`Decision selected: ${selected}`);
+      log.appendLine("Re-solving with updated choices...");
+
+      solve = await postJson<SolveResponse>(baseUrl, "/solve", {
+        repoPath: workspaceRoot,
+        choices,
+        analysis,
+      });
+    }
+
+    solverLog.show(true);
+    solverLog.appendLine(formatSolveReport(solve));
+    await maybeRunPlanSteps(solve.plan_steps ?? []);
+
 
     vscode.window.showInformationMessage("RDE: Analyze + diagnostics complete.");
   } catch (err) {
