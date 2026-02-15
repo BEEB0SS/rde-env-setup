@@ -45,3 +45,16 @@ def build_pip_plan(g: ConstraintGraph) -> List[PlanStep]:
             requires_confirmation=True,
         ),
     ]
+
+def build_requirements_in(g: ConstraintGraph) -> str:
+    lines = []
+    # pins first
+    for pkg, spec in g.pin_overrides.items():
+        lines.append(f"{pkg}{spec}")
+    # then repo deps (if any)
+    for d in g.pip_deps:
+        name = d.get("name")
+        spec = d.get("spec") or ""
+        if name:
+            lines.append(f"{name}{spec}")
+    return "\n".join(dict.fromkeys(lines)) + "\n"

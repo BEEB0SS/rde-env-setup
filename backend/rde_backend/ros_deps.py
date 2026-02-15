@@ -23,7 +23,7 @@ def _strip_ns(tag: str) -> str:
         return tag.split("}", 1)[1]
     return tag
 
-def parse_package_xml(path: Path) -> List[NormalizedDep]:
+def parse_package_xml(path: Path, base: Path | None = None) -> List[NormalizedDep]:
     """
     Extract ROS package dependencies from a package.xml.
     Returns NormalizedDep(kind="ros", name=..., evidence=...)
@@ -63,7 +63,7 @@ def parse_package_xml(path: Path) -> List[NormalizedDep]:
                 name=name,
                 spec=None,
                 evidence=Evidence(
-                    source=str(path.relative_to(path.parents[2])) if len(path.parents) >= 3 else str(path),
+                    source=str(path),
                     location=f"{path.name}:{tag}",
                     excerpt=f"<{tag}>{name}</{tag}>",
                 ),
